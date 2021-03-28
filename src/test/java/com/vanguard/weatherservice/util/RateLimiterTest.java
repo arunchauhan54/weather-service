@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import com.vanguard.weatherservice.config.WeatherProperties;
 import com.vanguard.weatherservice.exception.ServiceAccessException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,7 +22,8 @@ class RateLimiterTest {
 	private WeatherProperties weatherProperties;
 
 	@Test
-	void isAllowed() throws InterruptedException {
+	@DisplayName("when requests are more than defined limit then its not allowed for a defined period")
+	void givenTooManyRequestComing_whenRateLimitExceeds_thenItWillNotBeAllowedToProceed() throws InterruptedException {
 		final String key = "key";
 		when(weatherProperties.getApiKeys()).thenReturn(List.of(key));
 		when(weatherProperties.getApiKeyTimeWindowInSeconds()).thenReturn(3);

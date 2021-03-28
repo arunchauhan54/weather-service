@@ -63,5 +63,8 @@ Allowed values are -
 
 ### Improvements
 
-e2e Integration test could have been added using wiremock or spring cloud contract
-> As of now Integration test rely on api.openweathermap.org to be available  
+* e2e Integration test could have been added using wiremock or spring cloud contract
+
+> As of now Integration test rely on api.openweathermap.org to be available
+
+* more code level documentation can be added.

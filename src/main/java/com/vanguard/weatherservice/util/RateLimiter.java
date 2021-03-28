@@ -44,31 +44,33 @@ public class RateLimiter {
 		if (Objects.isNull(apiKey) || !apiKeyAccessRecord.containsKey(apiKey)) {
 			throw new ServiceAccessException("access not allowed", HttpStatus.FORBIDDEN);
 		}
+
+		apiKeyAccessRecord.computeIfPresent(apiKey, (key, record) -> verifyAndUpdateAccessRecord(record));
+
+		return true;
+	}
+
+	private AccessRecord verifyAndUpdateAccessRecord(final AccessRecord record) {
+
 		final int allowedDuration = properties.getApiKeyTimeWindowInSeconds();
 		final int allowedCount = properties.getApiKeyAllowedCountWithinTimeWindow();
 
-		apiKeyAccessRecord.computeIfPresent(apiKey,
-				(key, record) -> {
-					log.info("current record: " + record);
-					if (Duration.between(record.getTime(), LocalDateTime.now()).toSeconds() > allowedDuration) {
-						return AccessRecord.builder()
-								.time(LocalDateTime.now())
-								.count(1)
-								.build();
-					} else {
-						if (record.getCount() < allowedCount) {
-							return AccessRecord.builder()
-									.count(record.getCount() + 1)
-									.time(record.getTime())
-									.build();
-						} else {
-							throw new ServiceAccessException(
-									"rejected because of rate limit", HttpStatus.TOO_MANY_REQUESTS);
-						}
-					}
-
-				});
-		return true;
+		if (Duration.between(record.getTime(), LocalDateTime.now()).toSeconds() > allowedDuration) {
+			return AccessRecord.builder()
+					.time(LocalDateTime.now())
+					.count(1)
+					.build();
+		} else {
+			if (record.getCount() < allowedCount) {
+				return AccessRecord.builder()
+						.count(record.getCount() + 1)
+						.time(record.getTime())
+						.build();
+			} else {
+				throw new ServiceAccessException(
+						"rejected because of rate limit", HttpStatus.TOO_MANY_REQUESTS);
+			}
+		}
 	}
 
 }
