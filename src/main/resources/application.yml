@@ -1,0 +1,28 @@
+app:
+  weatherMapUrl: "https://api.openweathermap.org/data/2.5/weather"
+  weatherMapApiKey: "c4d547b909ccb5082df5d98999e735fd"
+  apiKeyTimeWindowInSeconds: 360
+  apiKeyAllowedCountWithinTimeWindow: 5
+  apiKeys:
+    - key1
+    - key2
+    - key3
+    - key4
+    - key5
+
+spring:
+  h2:
+    console:
+      enabled: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000   # 10 seconds
+        readTimeout: 30000      # 30 seconds
+        loggerLevel: FULL
+logging:
+  level:
+    com.vanguard.weatherservice.client: DEBUG
+
