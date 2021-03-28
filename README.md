@@ -68,3 +68,5 @@ Allowed values are -
 > As of now Integration test rely on api.openweathermap.org to be available
 
 * more code level documentation can be added.
+* Api key management should be secure and should come from some security vault service.
+As of now its in clear text in property file.
