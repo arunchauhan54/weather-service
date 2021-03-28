@@ -18,6 +18,10 @@ gradlew bootRun
 curl -X GET 'http://localhost:8080/weather?city=Melbourne&country=AU' -H 'API_KEY: key1'
 ```
 
+### landing page
+
+[http://localhost:8080](http://localhost:8080)
+
 ### Open Api Docs
 
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
